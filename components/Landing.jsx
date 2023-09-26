@@ -1,8 +1,5 @@
 import { Card, CardBody } from '@nextui-org/card'
-import { Button } from '@nextui-org/button'
-import { Link } from '@nextui-org/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpotify } from '@fortawesome/free-brands-svg-icons'
+import { SpotifyButton } from './SpotifyButton'
 import { accessUrl } from '../api/getAuthorization'
 
 export function Landing() {
@@ -23,7 +20,7 @@ export function Landing() {
                     <p className='text-sm sm:text-lg text-foreground-500'>
                         and see your stats in a beautiful way
                     </p>
-                    <Button
+                    {/* <Button
                         as={Link}
                         href={accessUrl}
                         size='lg'
@@ -32,7 +29,10 @@ export function Landing() {
                         startContent={<FontAwesomeIcon className='w-5 h-5' icon={faSpotify} />}
                     >
                         Log in with Spotify
-                    </Button>
+                    </Button> */}
+                    <SpotifyButton url={accessUrl} classNames='mt-8'>
+                        Log in with Spotify
+                    </SpotifyButton>
                 </CardBody>
             </Card>
         </section>

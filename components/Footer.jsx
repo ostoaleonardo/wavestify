@@ -1,8 +1,5 @@
 import { Card, CardBody } from '@nextui-org/card'
-import { Button } from '@nextui-org/button'
-import { Link } from '@nextui-org/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpotify } from '@fortawesome/free-brands-svg-icons'
+import { SpotifyButton } from './SpotifyButton'
 import { accessUrl } from '../api/getAuthorization'
 
 export function Footer() {
@@ -19,16 +16,9 @@ export function Footer() {
                     <span className='text-sm sm:text-lg text-foreground-500 text-center mt-5'>
                         Are you ready to get your music stats?
                     </span>
-                    <Button
-                        as={Link}
-                        href={accessUrl}
-                        size='lg'
-                        color='success'
-                        className='bg-guppie-green font-bold mt-8'
-                        startContent={<FontAwesomeIcon className='w-5 h-5' icon={faSpotify} />}
-                    >
+                    <SpotifyButton url={accessUrl} classNames='mt-8'>
                         Log in with Spotify
-                    </Button>
+                    </SpotifyButton>
                 </CardBody>
             </Card>
         </section>
