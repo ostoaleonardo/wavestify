@@ -1,9 +1,42 @@
-export default function Home() {
-  return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <h1 className='text-6xl font-bold text-center'>
-        Wavestify
-      </h1>
-    </main>
-  )
+'use client'
+
+import { useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Landing } from '@/components/Landing'
+import { Advantages } from '@/components/Advantages'
+import { Footer } from '@/components/Footer'
+
+export default function Login() {
+    const router = useRouter()
+    const pathname = usePathname()
+
+    useEffect(() => {
+        if (window.location.hash) {
+            const { access_token, expires_in, token_type } = getAccessToken(window.location.hash)
+            localStorage.clear()
+            localStorage.setItem('access_token', access_token)
+            localStorage.setItem('token_type', token_type)
+            localStorage.setItem('expires_in', expires_in)
+            router.push('/home')
+        }
+    }, [pathname])
+
+    const getAccessToken = (hash) => {
+        const stringAfterHashtag = hash.substring(1)
+        const paramsInUrl = stringAfterHashtag.split('&')
+        const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
+            const [key, value] = currentValue.split('=')
+            accumulater[key] = value
+            return accumulater
+        }, {})
+        return paramsSplitUp
+    }
+
+    return (
+        <main className='w-full min-h-screen flex flex-col items-center justify-between'>
+            <Landing />
+            <Advantages />
+            <Footer />
+        </main>
+    )
 }
