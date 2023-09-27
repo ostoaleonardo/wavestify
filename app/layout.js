@@ -1,6 +1,6 @@
 import { Providers } from './Providers'
 import { DM_Sans } from 'next/font/google'
-import { NavigationBar } from '@/components/NavigationBar'
+import { NavigationBarServer } from '@/components/Navbar/NavigationBarServer'
 import './globals.css'
 
 const dmSans = DM_Sans({ subsets: ['latin'] })
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body className={`dark text-foreground bg-chinese-black ${dmSans.className}`}>
                 <Providers>
-                    <NavigationBar />
+                    <NavigationBarServer />
                     {children}
                 </Providers>
             </body>

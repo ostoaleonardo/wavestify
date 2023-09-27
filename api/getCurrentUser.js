@@ -17,10 +17,9 @@ const formatCurrentUser = (user) => {
         return null;
     }
 
-    const { id, display_name, email, images, external_urls, product } = user;
+    const { display_name, email, images, external_urls, product } = user;
     
     return {
-        id: id,
         name: display_name,
         email: email,
         image: images[0]?.url || null,
