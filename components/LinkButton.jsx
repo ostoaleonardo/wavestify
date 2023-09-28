@@ -11,6 +11,7 @@ export function LinkButton({ href }) {
             as={Link}
             href={href}
             variant='flat'
+            aria-label='Open in Spotify'
             className='absolute top-3 right-3 hover:scale-125 transition-transform'
         >
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
