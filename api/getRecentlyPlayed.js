@@ -17,12 +17,11 @@ const formatRecentlyPlayed = (tracks) => {
     if (!tracks) {
         return null;
     }
-    
+
     const { items } = tracks;
 
     const formattedTracks = items.map((item) => {
-        const { track } = item;
-        const { id, name, artists, album, duration_ms, external_urls, preview_url } = track;
+        const { id, name, artists, album, duration_ms, external_urls, preview_url } = item.track;
         const { url } = external_urls;
         const { images } = album;
         const image = images[1]?.url || images[0]?.url;

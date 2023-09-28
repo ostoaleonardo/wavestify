@@ -1,0 +1,94 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useTimeRange } from '@/hooks/useTimeRange'
+import { Card, CardHeader, CardBody, Button, Select, SelectItem, CircularProgress } from '@nextui-org/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
+import { TrackCard } from './TrackCard'
+import { TrackList } from './TrackList'
+import { limits } from '../constants/lists'
+import getTopTracks from '../api/getTopTracks'
+
+export function TopTracks() {
+    const { timeRange } = useTimeRange()
+    const [modeList, setModeList] = useState(false)
+    const [topTracks, setTopTracks] = useState([])
+    const [limit, setLimit] = useState()
+
+    useEffect(() => {
+        fetchTopTracks(limit)
+    }, [timeRange])
+
+    async function fetchTopTracks(limit) {
+        try {
+            const response = await getTopTracks(timeRange, limit)
+            setTopTracks(response)
+        } catch (error) {
+            console.error('Error fetching top tracks:', error)
+        }
+    }
+
+    const toggleModeList = () => {
+        setModeList(!modeList)
+    }
+
+    return (
+        <Card className='shadow-none p-4'>
+            <CardHeader className='flex flex-col sm:flex-row justify-between gap-3'>
+                <h3 className='w-full text-2xl sm:text-4xl font-bold'>
+                    Top <span className='text-guppie-green'>Tracks</span>
+                </h3>
+                <div className='w-full flex flex-row justify-end items-center gap-3'>
+                    <Button
+                        isIconOnly
+                        showAnchorIcon
+                        variant='light'
+                        onClick={() => toggleModeList()}
+                    >
+                        {modeList ? (
+                            <FontAwesomeIcon icon={faList} />
+                        ) : (
+                            <FontAwesomeIcon icon={faTableCellsLarge} />
+                        )}
+                    </Button>
+                    <Select
+                        label='Limit'
+                        labelPlacement='inside'
+                        className='max-w-[100px]'
+                        defaultSelectedKeys={[limits[0].value]}
+                        disallowEmptySelection={true}
+                        onChange={(e) => {
+                            const selected = e.target.value
+                            setLimit(selected)
+                            fetchTopTracks(selected)
+                        }}
+                    >
+                        {limits.map((limit) => (
+                            <SelectItem key={limit.value} value={limit.value}>
+                                {limit.label}
+                            </SelectItem>
+                        ))}
+                    </Select>
+                </div>
+            </CardHeader>
+            <CardBody className='px-3'>
+                {topTracks.length === 0 && <CircularProgress className='self-center' color='success' />}
+
+                {!modeList ? (
+                    <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3'>
+                        {topTracks.map((track, index) => (
+                            <TrackCard key={index} index={index + 1} track={track} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className='flex flex-col gap-3'>
+                        {topTracks.map((track, index) => (
+                            <TrackList key={index} index={index + 1} track={track} />
+                        ))}
+                    </div>
+                )}
+            </CardBody>
+        </Card>
+    )
+}

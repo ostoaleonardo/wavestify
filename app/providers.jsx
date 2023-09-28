@@ -2,12 +2,15 @@
 
 import { NextUIProvider } from '@nextui-org/react'
 import { CurrentUserProvider } from '@/context/currentUser'
+import { TimeRangeProvider } from '@/context/timeRange'
 
 export function Providers({ children }) {
     return (
         <NextUIProvider>
             <CurrentUserProvider>
-                {children}
+                <TimeRangeProvider>
+                    {children}
+                </TimeRangeProvider>
             </CurrentUserProvider>
         </NextUIProvider>
     )

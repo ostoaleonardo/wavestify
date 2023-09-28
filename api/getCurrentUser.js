@@ -18,13 +18,16 @@ const formatCurrentUser = (user) => {
     }
 
     const { display_name, email, images, external_urls, product } = user;
+    const name = display_name;
+    const image = images[0]?.url || null;
+    const { url } = external_urls;
     
     return {
-        name: display_name,
-        email: email,
-        image: images[0]?.url || null,
-        url: external_urls.spotify,
-        product: product
+        name,
+        email,
+        image,
+        url,
+        product,
     };
 };
 
