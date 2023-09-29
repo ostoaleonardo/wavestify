@@ -30,10 +30,6 @@ export function CurrentlyPlaying() {
                 setProgress((v) => v + 1000)
                 setTimeElapsed(getTime(progress))
                 setLeftBarProgress((progress * 100) / currentlyPlaying.durationMs)
-
-                if (progress >= (currentlyPlaying.durationMs - 2000)) {
-                    setSongFinished(true)
-                }
             }, 1000);
             return () => clearInterval(interval)
         }

@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { useTimeRange } from '@/hooks/useTimeRange'
-import { Card, CardHeader, CardBody, Button, Select, SelectItem, CircularProgress } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from '@nextui-org/card'
+import { Select, SelectItem } from '@nextui-org/select'
+import { CircularProgress } from '@nextui-org/progress'
+import { Button } from '@nextui-org/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
 import { TrackCard } from './TrackCard'

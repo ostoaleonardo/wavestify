@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { useTimeRange } from '@/hooks/useTimeRange'
-import { Card, CardHeader, CardBody, CardFooter, Image, Button, Select, SelectItem, CircularProgress, Link } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from '@nextui-org/card'
+import { Select, SelectItem } from '@nextui-org/select'
+import { CircularProgress } from '@nextui-org/progress'
+import { Button } from '@nextui-org/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUpRightFromSquare, faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
-import { ranges, limits } from '../constants/lists'
+import { faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
 import { ArtistCard } from './ArtistCard'
 import { ArtistList } from './ArtistList'
+import { limits } from '../constants/lists'
 import getTopArtists from '../api/getTopArtists'
 
 export function TopArtists() {
