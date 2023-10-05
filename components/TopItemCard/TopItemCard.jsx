@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card'
-import { LinkButton } from '../LinkButton'
+import { LinkButton } from '../Button/LinkButton'
 import { Background } from './Background'
 
 export function TopItemCard({ children, title }) {

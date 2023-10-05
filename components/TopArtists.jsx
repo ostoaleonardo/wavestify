@@ -12,6 +12,7 @@ import { ArtistCard } from './ArtistCard'
 import { ArtistList } from './ArtistList'
 import { limits } from '../constants/lists'
 import getTopArtists from '../api/getTopArtists'
+import { IconButton } from './Button/IconButton'
 
 export function TopArtists() {
     const { timeRange } = useTimeRange()
@@ -43,18 +44,13 @@ export function TopArtists() {
                     Top <span className='text-guppie-green'>Artists</span>
                 </h3>
                 <div className='w-full flex flex-row justify-end items-center gap-3'>
-                    <Button
-                        isIconOnly
-                        showAnchorIcon
-                        variant='light'
-                        onClick={() => toggleModeList()}
-                    >
+                    <IconButton label='Toggle mode list' handleClick={() => toggleModeList()}>
                         {modeList ? (
                             <FontAwesomeIcon icon={faList} />
                         ) : (
                             <FontAwesomeIcon icon={faTableCellsLarge} />
                         )}
-                    </Button>
+                    </IconButton>
                     <Select
                         label='Limit'
                         labelPlacement='inside'

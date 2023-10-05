@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpotify } from '@fortawesome/free-brands-svg-icons'
 import { MenuToggle } from './MenuToggle'
 import { DropdownUser } from './DropdownUser'
-import { SpotifyButton } from '../SpotifyButton'
+import { SpotifyButton } from '../Button/SpotifyButton'
 import { accessUrl } from '../../api/getAuthorization'
 import Link from 'next/link'
 

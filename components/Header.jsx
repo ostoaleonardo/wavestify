@@ -6,7 +6,7 @@ import { Avatar } from '@nextui-org/avatar'
 import { Chip } from '@nextui-org/chip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
-import { LinkButton } from './LinkButton'
+import { LinkButton } from './Button/LinkButton'
 
 export function Header() {
     const { currentUser } = useCurrentUser()

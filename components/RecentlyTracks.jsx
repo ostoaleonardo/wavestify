@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTimeRange } from '@/hooks/useTimeRange'
 import { Card, CardHeader, CardBody } from '@nextui-org/card'
 import { Select, SelectItem } from '@nextui-org/select'
 import { CircularProgress } from '@nextui-org/progress'
@@ -11,26 +10,56 @@ import { faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
 import { TrackCard } from './TrackCard'
 import { TrackList } from './TrackList'
 import { limits } from '../constants/lists'
-import getTopTracks from '../api/getTopTracks'
+import getRecentlyPlayed from '../api/getRecentlyPlayed'
 import { IconButton } from './Button/IconButton'
 
-export function TopTracks() {
-    const { timeRange } = useTimeRange()
-    const [modeList, setModeList] = useState(false)
-    const [topTracks, setTopTracks] = useState([])
-    const [limit, setLimit] = useState()
+export function RecentlyTracks() {
+    const [recentlyTracks, setRecentlyTracks] = useState([])
+    const [modeList, setModeList] = useState(true)
 
     useEffect(() => {
-        fetchTopTracks(limit)
-    }, [timeRange])
+        fetchRecentlyTracks()
+    }, [])
 
-    async function fetchTopTracks(limit) {
+    async function fetchRecentlyTracks(selectedLimit = 5) {
         try {
-            const response = await getTopTracks(timeRange, limit)
-            setTopTracks(response)
+            const response = await getRecentlyPlayed(selectedLimit)
+            setRecentlyTracks(response)
         } catch (error) {
             console.error('Error fetching top tracks:', error)
         }
+    }
+
+    const getWhenWasPlayed = (playedAt) => {
+        const playedAtDate = new Date(playedAt)
+        const now = new Date()
+        const diff = now - playedAtDate
+        const seconds = Math.floor(diff / 1000)
+        const minutes = Math.floor(seconds / 60)
+        const hours = Math.floor(minutes / 60)
+        const days = Math.floor(hours / 24)
+        const weeks = Math.floor(days / 7)
+        const months = Math.floor(days / 30)
+        const years = Math.floor(days / 365)
+        var time = ''
+
+        if (seconds < 60) {
+            time = 'A few seconds ago'
+        } else if (minutes < 60) {
+            time = minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`
+        } else if (hours < 24) {
+            time = hours === 1 ? '1 hour ago' : `${hours} hours ago`
+        } else if (days < 7) {
+            time = days === 1 ? '1 day ago' : `${days} days ago`
+        } else if (weeks < 4) {
+            time = weeks === 1 ? '1 week ago' : `${weeks} weeks ago`
+        } else if (months < 12) {
+            time = months === 1 ? '1 month ago' : `${months} months ago`
+        } else {
+            time = years === 1 ? '1 year ago' : `${years} years ago`
+        }
+
+        return time
     }
 
     const toggleModeList = () => {
@@ -41,7 +70,7 @@ export function TopTracks() {
         <Card className='shadow-none p-4'>
             <CardHeader className='flex flex-col sm:flex-row justify-between gap-3'>
                 <h3 className='w-full text-2xl sm:text-4xl font-bold'>
-                    Top <span className='text-guppie-green'>Tracks</span>
+                    Recently <span className='text-guppie-green'>Tracks</span>
                 </h3>
                 <div className='w-full flex flex-row justify-end items-center gap-3'>
                     <IconButton label='Toggle mode list' handleClick={() => toggleModeList()}>
@@ -55,12 +84,10 @@ export function TopTracks() {
                         label='Limit'
                         labelPlacement='inside'
                         className='max-w-[100px]'
-                        defaultSelectedKeys={[limits[0].value]}
                         disallowEmptySelection={true}
+                        defaultSelectedKeys={[limits[0].value]}
                         onChange={(e) => {
-                            const selected = e.target.value
-                            setLimit(selected)
-                            fetchTopTracks(selected)
+                            fetchRecentlyTracks(e.target.value)
                         }}
                     >
                         {limits.map((limit) => (
@@ -72,22 +99,22 @@ export function TopTracks() {
                 </div>
             </CardHeader>
             <CardBody className='px-3'>
-                {topTracks.length === 0 && <CircularProgress className='self-center' color='success' />}
+                {recentlyTracks.length === 0 && <CircularProgress className='self-center' color='success' />}
 
                 {!modeList ? (
                     <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3'>
-                        {topTracks.map((track, index) => (
+                        {recentlyTracks.map((track, index) => (
                             <TrackCard key={index} index={index + 1} track={track} />
                         ))}
                     </div>
                 ) : (
                     <div className='flex flex-col gap-3'>
-                        {topTracks.map((track, index) => (
-                            <TrackList key={index} index={index + 1} track={track} />
+                        {recentlyTracks.map((track, index) => (
+                            <TrackList key={index} index={index + 1} track={track} chip={getWhenWasPlayed(track.playedAt)} />
                         ))}
                     </div>
                 )}
             </CardBody>
-        </Card>
+        </Card >
     )
 }

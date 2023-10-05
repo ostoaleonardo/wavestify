@@ -7,7 +7,7 @@ import { useInView } from 'framer-motion'
 import { CircularProgress } from '@nextui-org/progress'
 import { Image } from '@nextui-org/image'
 import { TopItemCard } from './TopItemCard/TopItemCard'
-import { LinkButton } from './LinkButton'
+import { LinkButton } from './Button/LinkButton'
 import getTopTracks from '../api/getTopTracks'
 import confetti from 'canvas-confetti'
 
