@@ -1,4 +1,4 @@
-import TimeRangeGroup from '@/components/TimeRangeGroup'
+import { TimeRangeGroup } from '@/components/TimeRangeGroup'
 
 export default function HomeLayout({ children }) {
     return (
