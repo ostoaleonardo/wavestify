@@ -11,15 +11,14 @@ export default function Login() {
     const pathname = usePathname()
 
     useEffect(() => {
-        if (window.location.hash) {
-            const { access_token, expires_in, token_type } = getAccessToken(window.location.hash)
-            localStorage.clear()
+        const { access_token, token_type, expires_in } = getAccessToken(window.location.hash)
+        if (access_token) {
             localStorage.setItem('access_token', access_token)
             localStorage.setItem('token_type', token_type)
             localStorage.setItem('expires_in', expires_in)
             router.push('/home')
         }
-    }, [pathname])
+    }, [pathname, router])
 
     const getAccessToken = (hash) => {
         const stringAfterHashtag = hash.substring(1)

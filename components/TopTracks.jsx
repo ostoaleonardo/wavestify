@@ -5,14 +5,13 @@ import { useTimeRange } from '@/hooks/useTimeRange'
 import { Card, CardHeader, CardBody } from '@nextui-org/card'
 import { Select, SelectItem } from '@nextui-org/select'
 import { CircularProgress } from '@nextui-org/progress'
-import { Button } from '@nextui-org/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons'
 import { TrackCard } from './TrackCard'
 import { TrackList } from './TrackList'
 import { limits } from '../constants/lists'
-import getTopTracks from '../api/getTopTracks'
 import { IconButton } from './Button/IconButton'
+import getTopTracks from '../api/getTopTracks'
 
 export function TopTracks() {
     const { timeRange } = useTimeRange()
@@ -22,15 +21,11 @@ export function TopTracks() {
 
     useEffect(() => {
         fetchTopTracks(limit)
-    }, [timeRange])
+    }, [timeRange, limit])
 
     async function fetchTopTracks(limit) {
-        try {
-            const response = await getTopTracks(timeRange, limit)
-            setTopTracks(response)
-        } catch (error) {
-            console.error('Error fetching top tracks:', error)
-        }
+        const response = await getTopTracks(timeRange, limit)
+        setTopTracks(response)
     }
 
     const toggleModeList = () => {

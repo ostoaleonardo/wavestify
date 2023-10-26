@@ -18,6 +18,11 @@ export function TopTrack() {
     const isInView = useInView(ref, { once: true })
 
     useEffect(() => {
+        async function fetchTopTrack() {
+            const response = await getTopTracks(timeRange, '1')
+            setTopTrack(response[0])
+        }
+
         fetchTopTrack()
     }, [timeRange])
 
@@ -30,15 +35,6 @@ export function TopTrack() {
             })
         }
     }, [isInView])
-
-    async function fetchTopTrack() {
-        try {
-            const response = await getTopTracks(timeRange, '1')
-            setTopTrack(response[0])
-        } catch (error) {
-            console.error('Error fetching top tracks:', error)
-        }
-    }
 
     return (
         <div ref={ref} className='relative w-full h-full'>

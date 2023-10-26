@@ -10,17 +10,13 @@ export function TopGenres() {
     const [topGenres, setTopGenres] = useState([])
 
     useEffect(() => {
-        fetchTopArtists(timeRange)
-    }, [timeRange])
-
-    async function fetchTopArtists(range) {
-        try {
+        async function fetchTopArtists(range) {
             const response = await getTopArtists(range, '50')
             getCountGenres(response)
-        } catch (error) {
-            console.error('Error fetching top artists:', error)
         }
-    }
+
+        fetchTopArtists(timeRange)
+    }, [timeRange])
 
     const getCountGenres = (genres) => {
         const countGenres = []

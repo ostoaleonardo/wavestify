@@ -17,12 +17,7 @@ export default function TrackDetails({ params }) {
 
     useEffect(() => {
         fetchData()
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
-    }, [id])
+    }, [])
 
     const fetchData = async () => {
         const track = await getTrackById(id)
