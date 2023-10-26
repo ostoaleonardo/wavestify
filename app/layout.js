@@ -1,4 +1,4 @@
-import { Providers } from './Providers'
+import { Providers } from './providers'
 import { DM_Sans } from 'next/font/google'
 import { NavigationBarServer } from '@/components/Navbar/NavigationBarServer'
 import './globals.css'
