@@ -16,18 +16,18 @@ export default function TrackDetails({ params }) {
     const [relatedTracks, setRelatedTracks] = useState([])
 
     useEffect(() => {
+        const fetchData = async () => {
+            const track = await getTrackById(id)
+            const features = await getFeaturesById(id)
+            const relatedTracks = await getRelatedTracksById(track.artists[0].id, id)
+
+            setTrack(track)
+            setFeatures(features)
+            setRelatedTracks(relatedTracks)
+        }
+
         fetchData()
     }, [])
-
-    const fetchData = async () => {
-        const track = await getTrackById(id)
-        const features = await getFeaturesById(id)
-        const relatedTracks = await getRelatedTracksById(track.artists[0].id, id)
-
-        setTrack(track)
-        setFeatures(features)
-        setRelatedTracks(relatedTracks)
-    }
 
     return (
         <main className='w-full min-h-screen flex flex-col items-center'>

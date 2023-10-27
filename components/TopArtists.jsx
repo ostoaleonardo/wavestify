@@ -20,13 +20,13 @@ export function TopArtists() {
     const [limit, setLimit] = useState()
 
     useEffect(() => {
+        async function fetchTopArtists() {
+            const response = await getTopArtists(timeRange, limit)
+            setTopArtists(response)
+        }
+
         fetchTopArtists(limit)
     }, [timeRange, limit])
-
-    async function fetchTopArtists(limit) {
-        const response = await getTopArtists(timeRange, limit)
-        setTopArtists(response)
-    }
 
     const toggleModeList = () => {
         setModeList(!modeList)
@@ -55,7 +55,6 @@ export function TopArtists() {
                         onChange={(e) => {
                             const selected = e.target.value
                             setLimit(selected)
-                            fetchTopArtists(selected)
                         }}
                     >
                         {limits.map((limit) => (

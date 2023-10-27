@@ -20,13 +20,13 @@ export function TopTracks() {
     const [limit, setLimit] = useState()
 
     useEffect(() => {
+        async function fetchTopTracks() {
+            const response = await getTopTracks(timeRange, limit)
+            setTopTracks(response)
+        }
+
         fetchTopTracks(limit)
     }, [timeRange, limit])
-
-    async function fetchTopTracks(limit) {
-        const response = await getTopTracks(timeRange, limit)
-        setTopTracks(response)
-    }
 
     const toggleModeList = () => {
         setModeList(!modeList)
@@ -55,7 +55,6 @@ export function TopTracks() {
                         onChange={(e) => {
                             const selected = e.target.value
                             setLimit(selected)
-                            fetchTopTracks(selected)
                         }}
                     >
                         {limits.map((limit) => (
