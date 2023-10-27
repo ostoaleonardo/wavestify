@@ -10,7 +10,7 @@ import { TimeRangeGroup } from '@/components/TimeRangeGroup'
 export default function Home() {
     return (
         <main className='w-full min-h-screen flex flex-col items-center p-6'>
-            <div className='relative max-w-5xl md:max-w-5xl xl:max-w-7xl'>
+            <div className='relative w-full max-w-5xl md:max-w-5xl xl:max-w-7xl'>
                 <div className='grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4'>
                     <section className='col-span-full'>
                         <Header />

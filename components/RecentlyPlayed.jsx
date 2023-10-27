@@ -14,7 +14,17 @@ export function RecentlyPlayed() {
     const [recentlyPlayed, setRecentlyPlayed] = useState([])
 
     useEffect(() => {
-        getRecentlyPlayed().then((data) => setRecentlyPlayed(data[0]))
+        const pollRecentlyPlayed = async () => {
+            const response = await getRecentlyPlayed()
+            
+            if (response !== null) {
+                setRecentlyPlayed(response[0])
+            }
+
+            setTimeout(pollRecentlyPlayed, 10000)
+        }
+
+        pollRecentlyPlayed()
     }, [])
 
     const getDuration = (ms) => {

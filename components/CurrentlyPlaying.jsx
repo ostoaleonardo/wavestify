@@ -13,14 +13,24 @@ import getCurrentlyPlaying from '../api/getCurrentlyPlaying'
 export function CurrentlyPlaying() {
     const [progress, setProgress] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [timeElapsed, setTimeElapsed] = useState('0:00')
-    const [leftBarProgress, setLeftBarProgress] = useState(0)
     const [currentlyPlaying, setCurrentlyPlaying] = useState({
         name: 'No song playing',
         artist: 'No artist',
     })
 
     useEffect(() => {
+        const pollCurrentlyPlaying = async () => {
+            const response = await getCurrentlyPlaying()
+
+            if (response !== null) {
+                setCurrentlyPlaying(response)
+                setProgress(response.progressMs)
+                setIsPlaying(response.isPlaying)
+            }
+
+            setTimeout(pollCurrentlyPlaying, 5000)
+        }
+
         pollCurrentlyPlaying()
     }, [])
 
@@ -28,39 +38,10 @@ export function CurrentlyPlaying() {
         if (isPlaying) {
             const interval = setInterval(() => {
                 setProgress((v) => v + 1000)
-                setTimeElapsed(getTime(progress))
-                setLeftBarProgress((progress * 100) / currentlyPlaying.durationMs)
             }, 1000);
             return () => clearInterval(interval)
         }
     }, [progress])
-
-    const pollCurrentlyPlaying = async () => {
-        try {
-            const response = await getCurrentlyPlaying()
-
-            let timeLeft = null
-
-            if (response) {
-                setCurrentlyPlaying(response)
-                const durationMn = getTime(response.durationMs)
-                const progressMn = getTime(response.progressMs)
-                setProgress(response.progressMs)
-                setCurrentlyPlaying((v) => ({ ...v, durationMn, progressMn }))
-
-                setIsPlaying(response.isPlaying)
-                timeLeft = response.durationMs - response.progressMs
-            }
-
-            if (isPlaying === true) {
-                setTimeout(pollCurrentlyPlaying, timeLeft)
-            } else {
-                setTimeout(pollCurrentlyPlaying, 5000)
-            }
-        } catch (error) {
-            console.error('Error fetching currently playing:', error)
-        }
-    }
 
     const getTime = (ms) => {
         const minutes = Math.floor(ms / 60000)
@@ -131,11 +112,18 @@ export function CurrentlyPlaying() {
                                 }}
                                 color='default'
                                 size='sm'
-                                value={leftBarProgress}
+                                value={(progress * 100) / currentlyPlaying.durationMs}
                             />
                             <div className='flex justify-between'>
-                                <p className='text-small'>{timeElapsed}</p>
-                                <p className='text-small text-foreground/50'>{currentlyPlaying.durationMn}</p>
+                                <p className='text-small'>
+                                    {getTime(progress)}
+                                </p>
+                                <p className='text-small text-foreground/50'>
+                                    {currentlyPlaying.durationMs === undefined
+                                        ? '0:00'
+                                        : getTime(currentlyPlaying.durationMs)
+                                    }
+                                </p>
                             </div>
                         </div>
 

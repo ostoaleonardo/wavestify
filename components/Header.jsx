@@ -16,9 +16,10 @@ export function Header() {
             <CardHeader className='col-span-full sm:col-span-1 sm:row-span-2 items-center justify-center'>
                 <Avatar
                     isBordered
+                    showFallback
                     size='lg'
                     color='success'
-                    src={currentUser.image}
+                    src={currentUser ? currentUser.image : ''}
                     className='w-16 h-auto aspect-square'
                 />
                 <LinkButton href={currentUser.url} />
@@ -43,11 +44,9 @@ export function Header() {
                 >
                     {currentUser.product}
                 </Chip>
-                {currentUser && (
-                    <span className='text-foreground-500 text-base sm:text-xl font-medium'>
-                        Here are your stats
-                    </span>
-                )}
+                <span className='text-foreground-500 text-base sm:text-xl font-medium'>
+                    Here are your stats
+                </span>
             </CardFooter>
         </Card >
     )

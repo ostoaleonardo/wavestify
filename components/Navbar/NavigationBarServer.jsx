@@ -14,8 +14,13 @@ export function NavigationBarServer() {
     const { setCurrentUser } = useCurrentUser()
 
     useEffect(() => {
-        fetchUser().then(user => setCurrentUser(user))
-    }, [])
+        const getUser = async () => {
+            const user = await fetchUser()
+            setCurrentUser(user)
+        }
+
+        getUser()
+    }, []);
 
     return <NavigationBar />
 }
